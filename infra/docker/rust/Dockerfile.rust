@@ -1,0 +1,10 @@
+# infra/docker/rust/Dockerfile.rust
+FROM rust:1.81-slim as builder
+WORKDIR /app
+COPY ../../rust/ .
+RUN cargo build --release --workspace
+
+FROM debian:bookworm-slim
+WORKDIR /app
+COPY --from=builder /app/target/release/doc-core /usr/local/bin/
+CMD ["doc-core"]

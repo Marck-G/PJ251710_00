@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: sgd-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: sgd_user
+      POSTGRES_PASSWORD: sgd_pass
+      POSTGRES_DB: sgd_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-init/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - sgd_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: sgd-rabbit
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: sgd
+      RABBITMQ_DEFAULT_PASS: sgd123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./mq/config/definitions.json:/etc/rabbitmq/definitions.json
+
+  opensearch:
+    image: opensearchproject/opensearch:2.13.0
+    container_name: sgd-opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+    ports:
+      - "9200:9200"
+    volumes:
+      - os_data:/usr/share/opensearch/data
+
+  gateway-api:
+    build:
+      context: ../python/gateway-api
+      dockerfile: ../../infra/docker/python/Dockerfile.gateway
+    container_name: sgd-gateway
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      DATABASE_URL: postgres://sgd_user:sgd_pass@postgres:5432/sgd_db
+      MQ_URL: amqp://sgd:sgd123@rabbitmq:5672/
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../python/gateway-api:/app
+
+  doc-core:
+    build:
+      context: ../rust/services/doc-core
+      dockerfile: ../../infra/docker/rust/Dockerfile.rust
+    container_name: sgd-doc-core
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      DATABASE_URL: postgres://sgd_user:sgd_pass@postgres:5432/sgd_db
+      MQ_URL: amqp://sgd:sgd123@rabbitmq:5672/
+
+volumes:
+  sgd_data:
+  os_data:

@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "name": "sgd",
+      "password_hash": "sha256:abcdef1234567890",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [{ "name": "/" }],
+  "permissions": [
+    { "user": "sgd", "vhost": "/", "configure": ".*", "write": ".*", "read": ".*" }
+  ],
+  "queues": [
+    { "name": "documento.crear", "vhost": "/", "durable": true },
+    { "name": "auditoria.registrar", "vhost": "/", "durable": true }
+  ],
+  "exchanges": [
+    { "name": "sgd_exchange", "type": "topic", "durable": true, "vhost": "/" }
+  ],
+  "bindings": [
+    { "source": "sgd_exchange", "destination": "documento.crear", "destination_type": "queue", "routing_key": "documento.crear" },
+    { "source": "sgd_exchange", "destination": "auditoria.registrar", "destination_type": "queue", "routing_key": "auditoria.registrar" }
+  ]
+}

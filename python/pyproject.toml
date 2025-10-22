@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "sgd-python"
+version = "0.1.0"
+description = "Python microservices for Sistema de Gestión Documental"
+authors = ["Equipo SGD <dev@sgd.local>"]
+packages = [{ include = "gateway_api" },  { include = "report_service" }]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+uvicorn = "^0.30.0"
+aio-pika = "^9.4.0"         # para RabbitMQ
+pydantic = "^2.8.0"
+psycopg[binary] = "^3.1.18" # PostgreSQL
+requests = "^2.32.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+black = "^24.3.0"
+flake8 = "^7.0.0"
+mypy = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
