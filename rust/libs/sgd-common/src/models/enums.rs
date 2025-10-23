@@ -1,8 +1,9 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use strum_macros::{EnumString, Display};
 
 /// Nivel de acceso de un documento (ISO 23081 - AccessRights)
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AccessLevel {
     Publico,
@@ -11,7 +12,7 @@ pub enum AccessLevel {
 }
 
 /// Estado del documento dentro de su ciclo de vida (ISO 23081 - Status)
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum DocumentStatus {
     Borrador,
@@ -21,7 +22,7 @@ pub enum DocumentStatus {
 }
 
 /// Tipo de documento o género (ISO 23081 - Type / genre)
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum DocumentType {
     Informe,
@@ -33,7 +34,7 @@ pub enum DocumentType {
 }
 
 /// Rol del usuario dentro del sistema (según requisitos de gestión documental)
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum UserRole {
     Administrador,
@@ -43,7 +44,7 @@ pub enum UserRole {
 }
 
 /// Acción registrada en auditoría (ISO 16175 - Logging & Traceability)
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum AuditAction {
     Crear,
@@ -58,7 +59,7 @@ pub enum AuditAction {
 }
 
 /// Tipos posibles de relación entre documentos
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum RelationType {
     /// Documento es una versión anterior o posterior
@@ -74,7 +75,7 @@ pub enum RelationType {
 }
 
 /// Formatos admitidos para documentos
-#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum FileFormat {
     Pdf,

@@ -1,9 +1,10 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
 
 /// Representa una versión específica de un documento en el sistema
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct DocumentVersion {
     /// Identificador único de la versión
     pub id: Uuid,

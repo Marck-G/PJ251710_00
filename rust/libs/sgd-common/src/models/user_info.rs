@@ -1,3 +1,4 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
@@ -5,7 +6,7 @@ use chrono::{DateTime, Utc};
 use crate::models::enums::UserRole;
 
 /// Información básica del usuario, sincronizada con el microservicio de usuarios
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct UserInfo {
     /// Identificador único del usuario
     pub id: Uuid,

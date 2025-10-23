@@ -1,9 +1,10 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::{NaiveDate};
 
 /// Regla de retención documental (TRD)
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct RetentionRule {
     /// Identificador único de la regla TRD
     pub id: Uuid,

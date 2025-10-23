@@ -1,3 +1,4 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
@@ -5,7 +6,7 @@ use chrono::{DateTime, Utc};
 use crate::models::enums::{AccessLevel, DocumentStatus, DocumentType};
 
 /// Metadatos de un documento según ISO 23081
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct DocumentMetadata {
     /// Identificador único e inalterable del documento
     pub id: Uuid,

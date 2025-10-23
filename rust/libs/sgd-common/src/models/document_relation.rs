@@ -1,3 +1,4 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 
@@ -6,7 +7,7 @@ use crate::models::enums::RelationType;
 
 
 /// Relación entre dos documentos dentro del sistema
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct DocumentRelation {
     /// Identificador único de la relación
     pub id: Uuid,

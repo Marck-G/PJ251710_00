@@ -1,3 +1,4 @@
+use schemars::JsonSchema;
 use serde::{Serialize, Deserialize};
 use uuid::Uuid;
 use chrono::{DateTime, Utc};
@@ -5,7 +6,7 @@ use chrono::{DateTime, Utc};
 use crate::models::enums::{AuditAction, UserRole};
 
 /// Registro de auditoría y trazabilidad de acciones sobre documentos o entidades
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 pub struct AuditRecord {
     /// Identificador único del registro de auditoría
     pub id: Uuid,
