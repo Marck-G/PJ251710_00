@@ -19,6 +19,7 @@ pytest = "^8.4.2"
 black = "^25.9.0"
 flake8 = "^7.3.0"
 mypy = "^1.18.2"
+datamodel-code-generator = "^0.35.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,0 +1,533 @@
+{
+  "$defs": {
+    "AccessLevel": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Nivel de acceso de un documento (ISO 23081 - AccessRights)",
+      "enum": [
+        "publico",
+        "interno",
+        "confidencial"
+      ],
+      "title": "AccessLevel",
+      "type": "string"
+    },
+    "AuditAction": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Acción registrada en auditoría (ISO 16175 - Logging & Traceability)",
+      "enum": [
+        "crear",
+        "modificar",
+        "eliminar",
+        "consultar",
+        "descargar",
+        "restaurar_version",
+        "cambiar_permisos",
+        "aprobar",
+        "rechazar"
+      ],
+      "title": "AuditAction",
+      "type": "string"
+    },
+    "AuditRecord": {
+      "$defs": {
+        "AuditAction": {
+          "description": "Acción registrada en auditoría (ISO 16175 - Logging & Traceability)",
+          "enum": [
+            "crear",
+            "modificar",
+            "eliminar",
+            "consultar",
+            "descargar",
+            "restaurar_version",
+            "cambiar_permisos",
+            "aprobar",
+            "rechazar"
+          ],
+          "type": "string"
+        },
+        "UserRole": {
+          "description": "Rol del usuario dentro del sistema (según requisitos de gestión documental)",
+          "enum": [
+            "administrador",
+            "productor",
+            "usuario_final",
+            "auditor"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Registro de auditoría y trazabilidad de acciones sobre documentos o entidades",
+      "properties": {
+        "accion": {
+          "$ref": "#/$defs/AuditAction",
+          "description": "Tipo de acción realizada (crear, modificar, eliminar, etc.)"
+        },
+        "descripcion": {
+          "description": "Descripción o detalle adicional del evento",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "entidad_id": {
+          "description": "Identificador del documento o entidad afectada",
+          "format": "uuid",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hash_actual": {
+          "description": "Hash actual calculado sobre el contenido de este registro",
+          "type": "string"
+        },
+        "hash_anterior": {
+          "description": "Hash del registro anterior (encadenamiento)",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "id": {
+          "description": "Identificador único del registro de auditoría",
+          "format": "uuid",
+          "type": "string"
+        },
+        "rol": {
+          "$ref": "#/$defs/UserRole",
+          "description": "Rol del usuario en el momento de la acción"
+        },
+        "timestamp": {
+          "description": "Fecha y hora exacta de la acción (UTC)",
+          "format": "date-time",
+          "type": "string"
+        },
+        "usuario": {
+          "description": "Usuario que ejecutó la acción",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "accion",
+        "usuario",
+        "rol",
+        "timestamp",
+        "hash_actual"
+      ],
+      "title": "AuditRecord",
+      "type": "object"
+    },
+    "DocumentMetadata": {
+      "$defs": {
+        "AccessLevel": {
+          "description": "Nivel de acceso de un documento (ISO 23081 - AccessRights)",
+          "enum": [
+            "publico",
+            "interno",
+            "confidencial"
+          ],
+          "type": "string"
+        },
+        "DocumentStatus": {
+          "description": "Estado del documento dentro de su ciclo de vida (ISO 23081 - Status)",
+          "enum": [
+            "borrador",
+            "vigente",
+            "archivado",
+            "eliminado"
+          ],
+          "type": "string"
+        },
+        "DocumentType": {
+          "description": "Tipo de documento o género (ISO 23081 - Type / genre)",
+          "enum": [
+            "informe",
+            "resolucion",
+            "contrato",
+            "correspondencia",
+            "proyecto",
+            "otro"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Metadatos de un documento según ISO 23081",
+      "properties": {
+        "descripcion": {
+          "description": "Descripción opcional del contenido",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "estado": {
+          "$ref": "#/$defs/DocumentStatus",
+          "description": "Estado del documento en su ciclo de vida"
+        },
+        "fecha_creacion": {
+          "description": "Fecha de creación o registro",
+          "format": "date-time",
+          "type": "string"
+        },
+        "formato": {
+          "description": "Formato del archivo (PDF, DOCX, etc.)",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identificador único e inalterable del documento",
+          "format": "uuid",
+          "type": "string"
+        },
+        "nivel_acceso": {
+          "$ref": "#/$defs/AccessLevel",
+          "description": "Nivel de acceso (público, interno, confidencial)"
+        },
+        "palabras_clave": {
+          "description": "Palabras clave o etiquetas",
+          "items": {
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "productor": {
+          "description": "Productor o unidad responsable",
+          "type": "string"
+        },
+        "relacionados": {
+          "description": "Relación con otros documentos (anexos, versiones, etc.)",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "type": [
+            "array",
+            "null"
+          ]
+        },
+        "tipo": {
+          "$ref": "#/$defs/DocumentType",
+          "description": "Tipo documental o género"
+        },
+        "titulo": {
+          "description": "Título o asunto del documento",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "titulo",
+        "productor",
+        "fecha_creacion",
+        "tipo",
+        "estado",
+        "nivel_acceso",
+        "formato"
+      ],
+      "title": "DocumentMetadata",
+      "type": "object"
+    },
+    "DocumentRelation": {
+      "$defs": {
+        "RelationType": {
+          "description": "Tipos posibles de relación entre documentos",
+          "oneOf": [
+            {
+              "const": "version",
+              "description": "Documento es una versión anterior o posterior",
+              "type": "string"
+            },
+            {
+              "const": "anexo",
+              "description": "Documento es un anexo o adjunto de otro",
+              "type": "string"
+            },
+            {
+              "const": "asociado",
+              "description": "Documento está vinculado por un proceso o proyecto común",
+              "type": "string"
+            },
+            {
+              "const": "sustituye",
+              "description": "Documento sustituye o reemplaza a otro",
+              "type": "string"
+            },
+            {
+              "const": "otro",
+              "description": "Otro tipo de relación definida por la organización",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Relación entre dos documentos dentro del sistema",
+      "properties": {
+        "descripcion": {
+          "description": "Descripción opcional o nota sobre la relación",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "documento_id": {
+          "description": "ID del documento principal",
+          "format": "uuid",
+          "type": "string"
+        },
+        "documento_relacionado_id": {
+          "description": "ID del documento relacionado",
+          "format": "uuid",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identificador único de la relación",
+          "format": "uuid",
+          "type": "string"
+        },
+        "tipo": {
+          "$ref": "#/$defs/RelationType",
+          "description": "Tipo de relación (anexo, versión, etc.)"
+        }
+      },
+      "required": [
+        "id",
+        "documento_id",
+        "documento_relacionado_id",
+        "tipo"
+      ],
+      "title": "DocumentRelation",
+      "type": "object"
+    },
+    "DocumentStatus": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Estado del documento dentro de su ciclo de vida (ISO 23081 - Status)",
+      "enum": [
+        "borrador",
+        "vigente",
+        "archivado",
+        "eliminado"
+      ],
+      "title": "DocumentStatus",
+      "type": "string"
+    },
+    "DocumentType": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Tipo de documento o género (ISO 23081 - Type / genre)",
+      "enum": [
+        "informe",
+        "resolucion",
+        "contrato",
+        "correspondencia",
+        "proyecto",
+        "otro"
+      ],
+      "title": "DocumentType",
+      "type": "string"
+    },
+    "DocumentVersion": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Representa una versión específica de un documento en el sistema",
+      "properties": {
+        "autor": {
+          "description": "Usuario o sistema que realizó la modificación",
+          "type": "string"
+        },
+        "comentario": {
+          "description": "Comentario o descripción del cambio",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "documento_id": {
+          "description": "ID del documento al que pertenece esta versión",
+          "format": "uuid",
+          "type": "string"
+        },
+        "fecha": {
+          "description": "Fecha de creación de la versión",
+          "format": "date-time",
+          "type": "string"
+        },
+        "hash_anterior": {
+          "description": "Referencia opcional al hash de la versión anterior (para trazabilidad encadenada)",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hash_contenido": {
+          "description": "Hash de integridad de esta versión",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identificador único de la versión",
+          "format": "uuid",
+          "type": "string"
+        },
+        "numero": {
+          "description": "Número o etiqueta de versión (v1, v2, etc.)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "documento_id",
+        "numero",
+        "autor",
+        "fecha",
+        "hash_contenido"
+      ],
+      "title": "DocumentVersion",
+      "type": "object"
+    },
+    "FileFormat": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Formatos admitidos para documentos",
+      "enum": [
+        "pdf",
+        "docx",
+        "xlsx",
+        "txt",
+        "csv",
+        "xml",
+        "json",
+        "png",
+        "jpg",
+        "otro"
+      ],
+      "title": "FileFormat",
+      "type": "string"
+    },
+    "RetentionRule": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Regla de retención documental (TRD)",
+      "properties": {
+        "disposicion_final": {
+          "description": "Disposición final (eliminación, conservación, transferencia)",
+          "type": "string"
+        },
+        "fecha_creacion": {
+          "description": "Fecha de creación o aprobación de la regla",
+          "format": "date",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identificador único de la regla TRD",
+          "format": "uuid",
+          "type": "string"
+        },
+        "observaciones": {
+          "description": "Observaciones o referencias normativas",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "plazo_central": {
+          "description": "Plazo de retención en archivo central o histórico (en años)",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "plazo_gestion": {
+          "description": "Plazo de retención en archivo de gestión (en años)",
+          "format": "uint16",
+          "maximum": 65535,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "serie_documental": {
+          "description": "Serie o subserie documental a la que aplica",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "serie_documental",
+        "plazo_gestion",
+        "plazo_central",
+        "disposicion_final",
+        "fecha_creacion"
+      ],
+      "title": "RetentionRule",
+      "type": "object"
+    },
+    "UserInfo": {
+      "$defs": {
+        "UserRole": {
+          "description": "Rol del usuario dentro del sistema (según requisitos de gestión documental)",
+          "enum": [
+            "administrador",
+            "productor",
+            "usuario_final",
+            "auditor"
+          ],
+          "type": "string"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Información básica del usuario, sincronizada con el microservicio de usuarios",
+      "properties": {
+        "activo": {
+          "description": "Estado de la cuenta (activo, suspendido, etc.)",
+          "type": "boolean"
+        },
+        "correo": {
+          "description": "Correo electrónico institucional",
+          "type": "string"
+        },
+        "id": {
+          "description": "Identificador único del usuario",
+          "format": "uuid",
+          "type": "string"
+        },
+        "nombre": {
+          "description": "Nombre completo o alias",
+          "type": "string"
+        },
+        "rol": {
+          "$ref": "#/$defs/UserRole",
+          "description": "Rol del usuario dentro del sistema"
+        },
+        "ultimo_acceso": {
+          "description": "Fecha de último acceso al sistema",
+          "format": "date-time",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "nombre",
+        "correo",
+        "rol",
+        "activo"
+      ],
+      "title": "UserInfo",
+      "type": "object"
+    },
+    "UserRole": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "description": "Rol del usuario dentro del sistema (según requisitos de gestión documental)",
+      "enum": [
+        "administrador",
+        "productor",
+        "usuario_final",
+        "auditor"
+      ],
+      "title": "UserRole",
+      "type": "string"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
