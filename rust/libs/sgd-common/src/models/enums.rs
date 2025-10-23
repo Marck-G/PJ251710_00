@@ -72,3 +72,19 @@ pub enum RelationType {
     /// Otro tipo de relación definida por la organización
     Otro,
 }
+
+/// Formatos admitidos para documentos
+#[derive(Debug, Clone, Serialize, Deserialize, EnumString, Display, PartialEq, Eq)]
+#[serde(rename_all = "snake_case")]
+pub enum FileFormat {
+    Pdf,
+    Docx,
+    Xlsx,
+    Txt,
+    Csv,
+    Xml,
+    Json,
+    Png,
+    Jpg,
+    Otro,
+}
