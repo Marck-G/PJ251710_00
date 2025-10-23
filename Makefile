@@ -123,7 +123,7 @@ infra-logs:
 .PHONY: export-schemas
 export-schemas:
 	@echo "🦀 Exportando esquemas JSON Schema desde sgd-common..."
-	cd rust/libs/sgd-common && cargo run --example export_schema
+	cd rust/libs/sgd-common && cargo run --bin export_schemas
 	@echo "✅ Esquemas generados en python/schemas/"
 
 # =========================
@@ -148,3 +148,9 @@ clean:
 	cd $(INFRA_DIR) && docker compose down -v --remove-orphans
 	cd $(RUST_DIR) && cargo clean
 	find $(PYTHON_DIR) -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+
+generate-python-models:
+	bash infra/scripts/generate-python-schemas.sh
+
+sync-models: export-schemas generate-python-models
+.PHONY: generate-python-models sync-models
