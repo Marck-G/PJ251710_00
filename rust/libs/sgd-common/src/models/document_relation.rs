@@ -24,3 +24,22 @@ pub struct DocumentRelation {
     /// Descripción opcional o nota sobre la relación
     pub descripcion: Option<String>,
 }
+
+impl DocumentRelation {
+    /// Crea una nueva instancia de DocumentRelation
+    pub fn new(
+        id: Uuid,
+        documento_id: Uuid,
+        documento_relacionado_id: Uuid,
+        tipo: RelationType,
+        descripcion: Option<String>,
+    ) -> Self {
+        DocumentRelation {
+            id,
+            documento_id,
+            documento_relacionado_id,
+            tipo,
+            descripcion,
+        }
+    }
+}

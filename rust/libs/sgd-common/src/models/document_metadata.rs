@@ -41,3 +41,34 @@ pub struct DocumentMetadata {
     /// Relación con otros documentos (anexos, versiones, etc.)
     pub relacionados: Option<Vec<Uuid>>,
 }
+
+impl DocumentMetadata {
+    /// Crea una nueva instancia de DocumentMetadata
+    pub fn new(
+        id: Uuid,
+        titulo: String,
+        productor: String,
+        fecha_creacion: DateTime<Utc>,
+        tipo: DocumentType,
+        descripcion: Option<String>,
+        palabras_clave: Option<Vec<String>>,
+        estado: DocumentStatus,
+        nivel_acceso: AccessLevel,
+        formato: String,
+        relacionados: Option<Vec<Uuid>>,
+    ) -> Self {
+        DocumentMetadata {
+            id,
+            titulo,
+            productor,
+            fecha_creacion,
+            tipo,
+            descripcion,
+            palabras_clave,
+            estado,
+            nivel_acceso,
+            formato,
+            relacionados,
+        }
+    }
+}

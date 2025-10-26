@@ -30,3 +30,28 @@ pub struct DocumentVersion {
     /// Referencia opcional al hash de la versión anterior (para trazabilidad encadenada)
     pub hash_anterior: Option<String>,
 }
+
+impl DocumentVersion {
+    /// Crea una nueva instancia de DocumentVersion
+    pub fn new(
+        id: Uuid,
+        documento_id: Uuid,
+        numero: String,
+        autor: String,
+        fecha: DateTime<Utc>,
+        comentario: Option<String>,
+        hash_contenido: String,
+        hash_anterior: Option<String>,
+    ) -> Self {
+        DocumentVersion {
+            id,
+            documento_id,
+            numero,
+            autor,
+            fecha,
+            comentario,
+            hash_contenido,
+            hash_anterior,
+        }
+    }
+}

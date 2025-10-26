@@ -35,3 +35,30 @@ pub struct AuditRecord {
     /// Hash actual calculado sobre el contenido de este registro
     pub hash_actual: String,
 }
+
+impl AuditRecord {
+    /// Crea una nueva instancia de AuditRecord
+    pub fn new(
+        id: Uuid,
+        entidad_id: Option<Uuid>,
+        accion: AuditAction,
+        usuario: String,
+        rol: UserRole,
+        timestamp: DateTime<Utc>,
+        descripcion: Option<String>,
+        hash_anterior: Option<String>,
+        hash_actual: String,
+    ) -> Self {
+        AuditRecord {
+            id,
+            entidad_id,
+            accion,
+            usuario,
+            rol,
+            timestamp,
+            descripcion,
+            hash_anterior,
+            hash_actual,
+        }
+    }
+}

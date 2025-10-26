@@ -27,3 +27,25 @@ pub struct RetentionRule {
     /// Observaciones o referencias normativas
     pub observaciones: Option<String>,
 }
+impl RetentionRule {
+    /// Crea una nueva instancia de RetentionRule
+    pub fn new(
+        id: Uuid,
+        serie_documental: String,
+        plazo_gestion: u16,
+        plazo_central: u16,
+        disposicion_final: String,
+        fecha_creacion: NaiveDate,
+        observaciones: Option<String>,
+    ) -> Self {
+        RetentionRule {
+            id,
+            serie_documental,
+            plazo_gestion,
+            plazo_central,
+            disposicion_final,
+            fecha_creacion,
+            observaciones,
+        }
+    }
+}

@@ -26,3 +26,24 @@ pub struct UserInfo {
     /// Fecha de último acceso al sistema
     pub ultimo_acceso: Option<DateTime<Utc>>,
 }
+
+impl UserInfo {
+    /// Crea una nueva instancia de UserInfo
+    pub fn new(
+        id: Uuid,
+        nombre: String,
+        correo: String,
+        rol: UserRole,
+        activo: bool,
+        ultimo_acceso: Option<DateTime<Utc>>,
+    ) -> Self {
+        UserInfo {
+            id,
+            nombre,
+            correo,
+            rol,
+            activo,
+            ultimo_acceso,
+        }
+    }
+}
