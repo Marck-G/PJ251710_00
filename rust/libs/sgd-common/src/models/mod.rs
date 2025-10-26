@@ -5,6 +5,8 @@ pub mod document_relation;
 pub mod audit_record;
 pub mod user_info;
 pub mod retention_rule;
+pub mod document;
+pub mod classification;
 
 pub use enums::*;
 pub use document_metadata::*;
@@ -13,3 +15,5 @@ pub use document_relation::*;
 pub use audit_record::*;
 pub use user_info::*;
 pub use retention_rule::*;
+pub use document::*;
+pub use classification::*;
